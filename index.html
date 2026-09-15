@@ -67,6 +67,9 @@ section > .wrap > h2{font-size:clamp(1.6rem,4vw,2.2rem); margin-bottom:6px}
 .note.warn{border-left-color:var(--amber); background:#FFF6E6}
 .note.win{border-left-color:var(--mint); background:rgba(17,141,119,.07)}
 .note b{font-family:"Space Grotesk",sans-serif}
+.analogy{border-left:4px solid var(--amber); background:#FFF6E6; border-radius:0 10px 10px 0; padding:16px 18px; margin:0 0 20px}
+.analogy h4{font-size:1rem; margin-bottom:6px; color:#8A5B08}
+.analogy p{margin:0; font-size:.96rem; color:#5D4208}
 
 .btn{border:1px solid var(--ink); background:var(--ink); color:#fff; border-radius:9px; padding:10px 18px; font-size:.92rem; font-weight:600; cursor:pointer}
 .btn:hover{background:#0D1620}
@@ -215,14 +218,16 @@ footer{margin-top:60px; border-top:1px solid var(--line); padding:26px 0 56px; c
 
 <header class="hero"><div class="wrap">
   <div class="eyebrow">TOPIC 01 · COMPUTER ARCHITECTURE</div>
-  <h1>Storage devices &amp; media</h1>
-  <p class="lede">Every storage decision a computer designer makes is the same trade: fast and tiny and expensive,
-  or slow and huge and cheap. You cannot have both. Once you can feel how enormous that gap really is,
-  the whole storage hierarchy stops being a list to memorise and starts being obvious.</p>
+  <h1>Where a computer puts things</h1>
+  <p class="lede">Nobody has ever built a computer with one kind of storage. They all have five or six, stacked in
+  layers, and the reason is a trade nobody has escaped yet: storage is either fast and tiny and expensive, or slow and
+  huge and cheap. Never both. The gap between the two ends is far bigger than you are expecting — so before the
+  definitions, go and feel how big.</p>
 
   <div class="scale">
-    <p class="ask"><b>Try this.</b> Suppose reading one byte from a CPU register took a whole second.
-    Everything else in the machine would slow down by the same factor. Pick a device and see what its wait would feel like.</p>
+    <p class="ask"><b>Play with this before you read anything else.</b> Say the very fastest thing in your computer
+    took one full second to fetch a single byte. Slow everything else down by the same amount and see what the wait
+    would feel like to a human. Click any of them.</p>
     <div class="ladder" id="ladder"></div>
     <div class="readout">
       <div class="big" id="scaleBig">Pick a device above</div>
@@ -232,20 +237,39 @@ footer{margin-top:60px; border-top:1px solid var(--line); padding:26px 0 56px; c
 </div></header>
 
 <section id="memory"><div class="wrap">
-  <h2>What actually counts as memory</h2>
-  <p class="sub">The word "memory" gets used loosely. In this unit it means anything that holds bits — and each kind
-  differs on two questions: <b>does it survive a power cut</b>, and <b>can you write to it</b>?</p>
+  <h2>What counts as memory</h2>
+  <p class="sub">Everyone uses the word loosely. Here it means anything that holds bits, and every kind differs on
+  the same two questions: <b>does it survive when the current goes</b>, and <b>can you write to it</b>?</p>
+  <div class="analogy">
+    <h4>Your desk while you are doing homework</h4>
+    <p>The books you are actually using are open in front of you — grab anything instantly, but only about four
+    things fit. That is RAM. The rest of your books are on the shelf behind you: slower to reach, far more room.
+    That is the hard drive. And printed on the inside cover of every one of those books is your name, which you cannot
+    change no matter how much you might want to. That is ROM. Same three ideas, three different speeds, three different
+    amounts of room. Every computer ever built is that desk.</p>
+  </div>
   <div class="cards" id="memCards"></div>
-  <div class="note"><b>The naming pattern is the shortcut.</b> PROM, EPROM, EEPROM — each letter added on the front
-  tells you what new thing you can do. P = you can program it once. EP = erasable, with ultraviolet light. EEP = erasable
-  electrically, so it can be done in place without pulling the chip out. Flash is just EEPROM that erases in large blocks
-  instead of byte by byte, which is what makes it fast enough for a whole drive.</div>
+  <div class="note"><b>Do not memorise four separate chips. Read the letters.</b> Each letter bolted onto the front
+  of ROM tells you one new thing you are allowed to do. <b>P</b>ROM — you get to program it, once, and then never
+  again. <b>E</b>PROM — erasable, but only by shining ultraviolet light through a little window, which means
+  physically pulling the chip out of the machine first. Somebody eventually got tired of that, so:
+  <b>EE</b>PROM — electrically erasable, wipe it where it sits. Flash is EEPROM that erases in big blocks instead
+  of one byte at a time, and that one change is the entire reason your phone can have storage at all. Four names, one
+  story, told in order.</div>
 </div></section>
 
 <section id="sort1"><div class="wrap">
-  <h2>Volatile or not?</h2>
-  <p class="sub">Volatile means the contents vanish when the power goes. This is the distinction examiners ask about most,
-  and it is the one students most often get backwards. Drag each item into the right bin.</p>
+  <h2>When the current goes</h2>
+  <p class="sub">Volatile means the contents vanish the instant the power does. This is the single thing examiners ask
+  about most, and the single thing most people get backwards. Drag each one into the right bin.</p>
+  <div class="analogy">
+    <h4>The blackout test</h4>
+    <p>You are halfway through a piece of coursework and the current cuts. The document you were typing — the one
+    you had not saved — is gone. Instantly and completely. But the ten files you saved last week are still sitting
+    there when the power comes back. Nothing about those files is cleverer. They are simply stored in something that
+    does not need electricity to remember. That is the whole distinction, and it is why "save your work" is advice and
+    not a suggestion. Run every item below through that same test: current goes off, is it still there in the morning?</p>
+  </div>
   <div class="panel">
     <div class="pool" id="volPool"></div>
     <div class="bins">
@@ -261,22 +285,40 @@ footer{margin-top:60px; border-top:1px solid var(--line); padding:26px 0 56px; c
 </div></section>
 
 <section id="hierarchy"><div class="wrap">
-  <h2>The storage hierarchy</h2>
-  <p class="sub">Six levels, ordered by one thing: how long the processor has to wait. Everything else — price, capacity,
-  whether it survives a power cut — follows from that position. Click a level.</p>
+  <h2>The ladder</h2>
+  <p class="sub">Six rungs, sorted by one thing only: how long the processor has to stand around waiting.
+  Everything else — price, size, whether it survives a blackout — falls out of where a thing sits on that
+  ladder. Click any rung.</p>
+  <div class="analogy">
+    <h4>Pocket, bag, locker, house, warehouse</h4>
+    <p>Your phone is in your pocket — out in a second, but a pocket holds one phone. Your bag holds more and takes
+    a few seconds. Your locker holds a lot more and you have to walk there. Your house holds everything you own but you
+    have to go home. And somewhere there is a warehouse holding things you will not need for a year. Nobody planned
+    that arrangement. It happened because fast access and large capacity have always pulled against each other, for
+    everything, everywhere. A computer solves it exactly the way you do: a little bit close by, a lot far away.</p>
+  </div>
   <div class="panel">
     <div class="pyr" id="pyr"></div>
     <div class="tierinfo" id="tierInfo"></div>
   </div>
-  <div class="note win"><b>Read it as one sentence.</b> As you go down the hierarchy, access time gets longer, capacity gets
-  larger, and cost per byte gets smaller. Those three move together, always, in every machine ever built. If an exam question
-  gives you one of them, you can infer the other two.</div>
+  <div class="note win"><b>One sentence and you have the whole topic.</b> Going down the ladder: slower, bigger,
+  cheaper. Going up: faster, smaller, dearer. Those three always move together — in every machine ever built, with
+  no exceptions. Which means if an exam hands you any one of them, you can state the other two without thinking.
+  That is a free mark, roughly every year.</div>
 </div></section>
 
 <section id="access"><div class="wrap">
-  <h2>Three ways to find something</h2>
-  <p class="sub">Two devices can hold the same file and still take wildly different times to produce it, because they search
-  differently. Pick a track number and watch each medium go looking for it.</p>
+  <h2>Three ways to go looking</h2>
+  <p class="sub">Two devices can be holding the exact same file and take wildly different amounts of time to hand it
+  over, purely because of how they go looking. Pick a track number and watch them race.</p>
+  <div class="analogy">
+    <h4>Skipping to track 9</h4>
+    <p>On a cassette, you hold fast-forward and wait, and the wait depends entirely on how far in the song is.
+    On a CD, you press next eight times and the laser jumps — quick, but the jump still takes a moment.
+    On your phone, you tap the song. It does not matter whether it is track 2 or track 200; the tap costs the same.
+    Those three are not just old and new technology. They are the three access methods on the syllabus, and you have
+    used all of them.</p>
+  </div>
   <div class="panel">
     <div class="calcgrid" style="max-width:420px">
       <div><label class="fld" for="trackNo">Track to find (1–60)</label>
@@ -285,17 +327,19 @@ footer{margin-top:60px; border-top:1px solid var(--line); padding:26px 0 56px; c
     </div>
     <div class="race" id="race" style="margin-top:20px"></div>
   </div>
-  <div class="note warn"><b>The exam distinction.</b> <b>Serial or sequential access</b> means passing over everything in front of
-  the target — magnetic tape has no choice. <b>Direct access</b> means jumping close to the target, then reading a short way —
-  hard disks and optical discs move a head to the right track. <b>Random access</b> means every location costs the same,
-  no matter where it is — RAM and solid state. Note the trap: a hard disk is often loosely called "random access",
-  but strictly it is direct, because where the head is right now still affects the time.</div>
+  <div class="note warn"><b>Now the proper names, and the trap.</b> The cassette is <b>serial</b> or
+  <b>sequential</b> access — you pass over everything in front of the target because there is no alternative.
+  The CD is <b>direct</b> access — jump close, then read a short way. Your phone is <b>random</b> access —
+  every location costs exactly the same regardless of position. Here is where people lose the mark: a hard disk gets
+  casually called "random access" all the time, but strictly it is <em>direct</em>, because where the head happens to
+  be sitting right now still changes the time. RAM is random. A hard disk is not.</div>
 </div></section>
 
 <section id="units"><div class="wrap">
-  <h2>Counting capacity</h2>
-  <p class="sub">A bit is one switch. Eight of them make a byte, which is enough to hold one character.
-  Everything after that is just multiplying by 1024 and giving it a new name.</p>
+  <h2>Counting how much fits</h2>
+  <p class="sub">A bit is one switch, on or off. Eight switches make a byte, which is exactly enough to hold one
+  character — one letter of one word of one message. Everything above that is the same number multiplied by 1024
+  and given a grander name.</p>
   <div class="panel">
     <div class="calcgrid">
       <div><label class="fld" for="cvVal">Amount</label><input class="num" id="cvVal" type="number" value="4" step="any"></div>
@@ -316,15 +360,18 @@ footer{margin-top:60px; border-top:1px solid var(--line); padding:26px 0 56px; c
     </div>
     <div class="result" id="fitOut"></div>
   </div>
-  <div class="note"><b>The 1000 versus 1024 trap.</b> Manufacturers sell a "500 GB" drive using 1 GB = 1,000,000,000 bytes.
-  Your operating system counts in 1024s and reports about 465 GB. Nothing was stolen — the two are counting in different bases.
-  For this unit, use <span class="mono">1 KB = 1024 bytes</span> unless a question says otherwise.</div>
+  <div class="note"><b>Why your new 500 GB drive says 465 GB, and nobody robbed you.</b> The company that sold it
+  counted in thousands: a gigabyte is a billion bytes, nice round number, looks good on the box. Your operating system
+  counts in 1024s, because that is how binary actually works. Same drive, same bytes, two different counting systems,
+  and the gap grows the bigger the drive gets. For this unit use <span class="mono">1 KB = 1024 bytes</span> unless a
+  question tells you otherwise — but now you know why the argument exists.</div>
 </div></section>
 
 <section id="devices"><div class="wrap">
-  <h2>Input, output or storage?</h2>
-  <p class="sub">Some devices genuinely belong in two places, and those are the ones worth arguing about.
-  Sort what you can, then read the note underneath.</p>
+  <h2>Which way is the data going?</h2>
+  <p class="sub">Most of these are obvious. A couple genuinely belong in two bins at once, and those are the
+  interesting ones. Sort what you can, then read the note underneath — it explains how to answer when an exam
+  forces you to pick one.</p>
   <div class="panel">
     <div class="pool" id="devPool"></div>
     <div class="bins">
@@ -338,21 +385,32 @@ footer{margin-top:60px; border-top:1px solid var(--line); padding:26px 0 56px; c
     </div>
     <div class="feedback" id="devFb"></div>
   </div>
-  <div class="note"><b>The ones that break the rule.</b> A touchscreen is input and output in one panel.
-  A USB drive both receives and supplies data, but we classify it as storage because holding data is its purpose.
-  A modem sends and receives. When a question forces one answer, ask what the device is <em>for</em>, not what it is capable of.</div>
+  <div class="note"><b>The awkward ones, and how to answer anyway.</b> A touchscreen is input and output in the same
+  sheet of glass. A modem sends and receives. A USB drive takes data in and gives it back out, so by capability it is
+  both — and yet the answer is storage. Here is the rule that resolves all of them: ask what the thing is
+  <em>for</em>, not what it is <em>able to do</em>. A USB drive is able to move data in both directions, but it exists
+  to hold data. Purpose decides, not capability.</div>
 </div></section>
 
 <section id="systems"><div class="wrap">
-  <h2>Classes of computer system</h2>
-  <p class="sub">The categories are about scale and purpose, not about age. All five are in use today.</p>
+  <h2>Five sizes of computer</h2>
+  <p class="sub">These are not eras. Nothing here is obsolete — every one of these is being built and sold right
+  now, for jobs the others would be wrong for. The categories are about scale and purpose.</p>
+  <div class="analogy">
+    <h4>Nobody delivers one parcel in a container ship</h4>
+    <p>A scooter, a van, a lorry, a container ship. None of them is better than the others; each one is absurd for the
+    wrong job. You would not ship a sofa on a scooter, and you would not send a container ship to drop off a pizza.
+    Computers split the same way — and the mistake people make in exams is assuming the big one is the good one.
+    A supercomputer would be a terrible phone.</p>
+  </div>
   <div class="cards" id="sysCards"></div>
 </div></section>
 
 <section id="test"><div class="wrap">
   <h2>Unit test</h2>
-  <p class="sub">Twenty-five questions in four parts. Nothing is saved or sent anywhere. Every answer is explained,
-  and the breakdown at the end tells you which section to revisit.</p>
+  <p class="sub">Twenty-five questions. Nothing is saved, nothing is sent anywhere, nobody sees your score but you —
+  so get it wrong as often as you need to. Every answer is explained properly, and the breakdown at the end tells you
+  exactly which section to go back and play with.</p>
 
   <div id="testIntro" class="panel">
     <h3 style="margin-bottom:10px">What it covers</h3>
@@ -403,13 +461,13 @@ const fmt = n => n.toLocaleString(undefined, {maximumFractionDigits: n < 10 ? 2 
    HERO — latency at human scale
    ================================================================= */
 const LAT = [
-  {n:'CPU register', ns:0.3,      note:'The processor\u2019s own scratchpad \u2014 a handful of bytes, right inside the chip. Everything the CPU actually works on passes through here.'},
+  {n:'CPU register', ns:0.3,      note:'The processor\u2019s own scratchpad, a handful of bytes built right into the chip. Everything the CPU is working on this instant sits here.'},
   {n:'Cache (L1)',   ns:1,        note:'A small pocket of very fast memory that keeps recently used data close. The CPU checks here before it bothers RAM.'},
   {n:'Main memory',  ns:80,       note:'RAM. Already 250 times slower than a register. This is why cache exists at all \u2014 to hide this wait.'},
   {n:'Solid state drive', ns:50000, note:'No moving parts, but now we have left the chip and are talking to a separate device over a bus. Nearly two days, at our scale.'},
-  {n:'Hard disk drive', ns:8000000, note:'A physical arm swings across a spinning platter. Mechanical movement is the killer \u2014 this is the single biggest jump in the whole hierarchy.'},
+  {n:'Hard disk drive', ns:8000000, note:'An actual metal arm physically swings across a spinning disc. Something has to move, and moving is slow \u2014 this is the single biggest jump on the whole ladder.'},
   {n:'Optical disc', ns:150000000, note:'A laser tracks a spiral groove. Fine for delivering a film once; hopeless as working storage.'},
-  {n:'Magnetic tape', ns:40000000000, note:'The tape must physically wind to the right spot. Unusable for live work \u2014 which is exactly why it survives as archive and backup, where nobody is waiting.'}
+  {n:'Magnetic tape', ns:40000000000, note:'The tape has to physically wind to the right spot, like fast-forwarding a cassette. Hopeless for anything live \u2014 which is exactly why it is still used for backups, where nobody is standing there waiting.'}
 ];
 const BASE = 0.3, LMIN = Math.log10(0.3), LMAX = Math.log10(4e10);
 function human(sec) {
@@ -550,8 +608,8 @@ sortingGame({
     {n:'ROM', b:'non'}, {n:'EEPROM', b:'non'}, {n:'USB flash drive', b:'non'},
     {n:'Hard disk', b:'non'}, {n:'DVD-ROM', b:'non'}, {n:'Magnetic tape', b:'non'}
   ],
-  hint:'Ask one question only: if someone pulled the plug right now, would the contents still be there in the morning?',
-  win:'Notice the pattern \u2014 everything volatile is fast and lives close to the processor. Speed and permanence pull in opposite directions.'
+  hint:'One question, nothing else: if the current cut right now, would it still be there in the morning?',
+  win:'Spot the pattern: every volatile thing on that list is fast and lives close to the processor. Speed and permanence have always pulled against each other, and you just sorted the evidence.'
 });
 
 sortingGame({
@@ -562,8 +620,8 @@ sortingGame({
     {n:'Monitor', b:'out'}, {n:'Printer', b:'out'}, {n:'Speakers', b:'out'}, {n:'Projector', b:'out'},
     {n:'Hard disk', b:'sto'}, {n:'USB flash drive', b:'sto'}, {n:'DVD', b:'sto'}, {n:'Magnetic tape', b:'sto'}
   ],
-  hint:'Follow the direction the data travels. Into the machine is input; out to a human is output; held for later is storage.',
-  win:'A scanner and a printer are mirror images of each other \u2014 one turns paper into data, the other turns data into paper.'
+  hint:'Follow the direction the data is travelling. Into the machine is input, out to a human is output, parked for later is storage.',
+  win:'A scanner and a printer are the same machine facing opposite ways \u2014 one turns paper into data, the other turns data into paper.'
 });
 
 /* =================================================================
@@ -826,9 +884,9 @@ function testFinish() {
   $('#doneScore').textContent = `${right}/${asked}`;
   $('#doneGrade').textContent = `${pct}%  \u00b7  grade ${grade(pct)}`;
   $('#doneMsg').textContent = pct >= 85
-    ? 'Strong. You can move on to logic gates — that topic assumes you are comfortable with everything here.'
-    : pct >= 65 ? 'A good base with specific gaps. Check the weakest part below and redo that section before the next class.'
-    : 'Work back through the page properly, especially the hierarchy and the volatility sort. These ideas come back in every later topic.';
+    ? 'You have got this properly. Go on to logic gates — that one assumes everything here is second nature, and for you it is.'
+    : pct >= 65 ? 'Decent, with a couple of specific gaps. Find your weakest part below and go play with that section again before next class.'
+    : 'Do not worry about the number. Go back up and actually click things \u2014 race the storage devices, sort the volatile bin, skip to track 47. It lands much better once you have poked it.';
   const parts = Object.keys(PARTS).map(p => {
     const ids = T.order.filter(i => Q[i].p === p);
     return {p, ok: ids.filter(i => T.answers[i] === Q[i].a).length, n: ids.length};
